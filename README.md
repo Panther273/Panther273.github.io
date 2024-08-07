@@ -78,9 +78,9 @@
         </nav>
     </header>
     <div class="container">
-        <div class="choice" onclick="location.href='index/droneService.html'">
+        <div class="choice" onclick="location.href='/index/droneService.html'">
             <h2>Drone Service</h2>
-            <p>Click here to view and pin drone pilot profiles</p>
+            <p>Click here to view offers from drone pilots profiles</p>
         </div>
         <div class="choice" onclick="location.href='index/geodeticSurveying.html'">
             <h2>Geodetic Surveying</h2>
