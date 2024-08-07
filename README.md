@@ -74,7 +74,7 @@
             <a href="index.html">Home</a>
             <a href="droneService.html">Drone Service</a>
             <a href="geodeticSurveying.html">Geodetic Surveying</a>
-            <a href="contact.html">Contact</a>
+            <a href="contact.html">Login</a>
         </nav>
     </header>
     <div class="container">
