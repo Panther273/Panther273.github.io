@@ -72,7 +72,7 @@
         <h1>Welcome to Drone and Geodetic Surveying Services</h1>
         <nav>
             <a href="index.html">Home</a>
-            <a href="droneService.html">Drone Service</a>
+            <a href="/index/droneService.html">Drone Service</a>
             <a href="geodeticSurveying.html">Geodetic Surveying</a>
             <a href="contact.html">Login</a>
         </nav>
