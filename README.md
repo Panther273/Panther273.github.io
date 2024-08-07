@@ -72,17 +72,17 @@
         <h1>Welcome to Drone and Geodetic Surveying Services</h1>
         <nav>
             <a href="index.html">Home</a>
-            <a href="/index/droneService.html">Drone Service</a>
+            <a href="droneService.html">Drone Service</a>
             <a href="geodeticSurveying.html">Geodetic Surveying</a>
             <a href="contact.html">Login</a>
         </nav>
     </header>
     <div class="container">
-        <div class="choice" onclick="location.href='/index/droneService.html'">
+        <div class="choice" onclick="location.href='https://panther273.github.io/index/droneService.html'">
             <h2>Drone Service</h2>
             <p>Click here to view offers from drone pilots profiles</p>
         </div>
-        <div class="choice" onclick="location.href='index/geodeticSurveying.html'">
+        <div class="choice" onclick="location.href='https://panther273.github.ioindex/geodeticSurveying.html'">
             <h2>Geodetic Surveying</h2>
             <p>Click here to view and pin geodetician profiles</p>
         </div>
