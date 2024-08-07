@@ -78,11 +78,11 @@
         </nav>
     </header>
     <div class="container">
-        <div class="choice" onclick="location.href='droneService.html'">
+        <div class="choice" onclick="location.href='index/droneService.html'">
             <h2>Drone Service</h2>
             <p>Click here to view and pin drone pilot profiles</p>
         </div>
-        <div class="choice" onclick="location.href='geodeticSurveying.html'">
+        <div class="choice" onclick="location.href='index/geodeticSurveying.html'">
             <h2>Geodetic Surveying</h2>
             <p>Click here to view and pin geodetician profiles</p>
         </div>
