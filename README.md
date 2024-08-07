@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -74,15 +74,15 @@
             <a href="index.html">Home</a>
             <a href="droneService.html">Drone Service</a>
             <a href="geodeticSurveying.html">Geodetic Surveying</a>
-            <a href="contact.html">Login</a>
+            <a href="contact.html">Contact</a>
         </nav>
     </header>
     <div class="container">
-        <div class="choice" onclick="location.href='https://panther273.github.io/index/droneService.html'">
+        <div class="choice" onclick="location.href='droneService.html'">
             <h2>Drone Service</h2>
-            <p>Click here to view offers from drone pilots profiles</p>
+            <p>Click here to view and pin drone pilot profiles</p>
         </div>
-        <div class="choice" onclick="location.href='https://panther273.github.ioindex/geodeticSurveying.html'">
+        <div class="choice" onclick="location.href='geodeticSurveying.html'">
             <h2>Geodetic Surveying</h2>
             <p>Click here to view and pin geodetician profiles</p>
         </div>
@@ -92,4 +92,3 @@
     </footer>
 </body>
 </html>
-
