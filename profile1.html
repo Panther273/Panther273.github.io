@@ -55,7 +55,7 @@
         .profile-header h1 span {
             margin-left: 1em;
         }
-        .edit-button {
+        .edit-button, .edit-picture-button {
             background-color: #333;
             color: white;
             border: none;
@@ -64,7 +64,7 @@
             cursor: pointer;
             margin-left: 1em;
         }
-        .edit-button:hover {
+        .edit-button:hover, .edit-picture-button:hover {
             background-color: #555;
         }
         .profile-details {
@@ -186,6 +186,11 @@
             // Add logic to handle photo upload
             alert('Add logic to handle photo upload.');
         }
+
+        function changeProfilePicture() {
+            // Logic for changing profile picture
+            alert('Add logic to change profile picture.');
+        }
     </script>
 </head>
 <body>
@@ -201,7 +206,8 @@
     <div class="container">
         <div class="profile-header">
             <img src="profile-picture.jpg" alt="John Doe">
-            <h1>John Doe, Pilot <span>Title</span></h1>
+            <h1>John Doe <span>Pilot</span></h1>
+            <button class="edit-picture-button" onclick="changeProfilePicture()">Edit Picture</button>
             <button class="edit-button" onclick="toggleEditProfile()">Edit Profile</button>
         </div>
         <div class="profile-details">
@@ -243,9 +249,6 @@
             <button class="edit-button">Submit Review</button>
         </div>
     </div>
-    
-    
-    
     <footer>
         <p>&copy; 2024 Drone and Geodetic Surveying Services</p>
     </footer>
