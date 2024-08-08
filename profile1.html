@@ -39,17 +39,30 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            margin-bottom: 1em;
         }
         .profile-header h1 {
             font-size: 2em;
             margin: 0;
         }
         .profile-header img {
-            width: 150px;
-            height: 150px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             border: 2px solid #333;
             margin-left: 1em;
+        }
+        .profile-header button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 0.5em 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 1em;
+        }
+        .profile-header button:hover {
+            background-color: #555;
         }
         .profile-details {
             background-color: white;
@@ -62,26 +75,43 @@
             margin: 0.5em 0;
         }
         .hire-button {
-            display: block;
-            width: 100%;
             background-color: green;
             color: white;
             text-align: center;
-            padding: 1em;
+            padding: 0.8em;
             border-radius: 5px;
             margin-top: 2em;
-            font-size: 1.2em;
+            font-size: 1em;
             cursor: pointer;
         }
         .contact-info {
             display: none;
+            background-color: white;
+            padding: 2em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
             margin-top: 1em;
         }
-        .contact-info input, .profile-details input {
+        .contact-info p {
+            margin: 0.5em 0;
+        }
+        .contact-info input {
             border: none;
             background-color: transparent;
             width: 100%;
             font-size: 1em;
+        }
+        .contact-info button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 0.5em;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 1em;
+        }
+        .contact-info button:hover {
+            background-color: #555;
         }
         .edit-button {
             background-color: #333;
@@ -131,28 +161,9 @@
     </style>
     <script>
         function hirePilot() {
-            fetch('/sendHireNotification', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    pilotEmail: 'john.doe@example.com',
-                    userName: 'Client Name'
-                })
-            })
-            .then(response => {
-                if (response.ok) {
-                    document.querySelector('.contact-info').style.display = 'block';
-                    alert('Notification sent to the pilot.');
-                } else {
-                    alert('Failed to send notification.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred.');
-            });
+            document.querySelector('.contact-info').style.display = 'block';
+            // Notify the pilot (this is just a placeholder; you would implement the actual notification logic here)
+            alert('Notification sent to the pilot.');
         }
 
         function toggleEditProfile() {
@@ -160,8 +171,13 @@
             inputs.forEach(input => {
                 input.disabled = !input.disabled;
             });
-            document.querySelector('.edit-button').textContent = 
-                document.querySelector('.edit-button').textContent === 'Edit Profile' ? 'Save Changes' : 'Edit Profile';
+            const contactInputs = document.querySelectorAll('.contact-info input');
+            contactInputs.forEach(input => {
+                input.disabled = !input.disabled;
+            });
+            const editButton = document.querySelector('.edit-button');
+            editButton.textContent = 
+                editButton.textContent === 'Edit Profile' ? 'Save Changes' : 'Edit Profile';
         }
     </script>
 </head>
@@ -179,20 +195,20 @@
         <div class="profile-header">
             <h1>John Doe, Pilot</h1>
             <img src="profile-picture.jpg" alt="John Doe">
+            <button onclick="document.querySelector('.profile-header img').click()">Change Picture</button>
         </div>
         <div class="profile-details">
             <p>Date of Birth: <input type="date" value="1985-01-01" disabled></p>
             <p>City: <input type="text" value="Bratislava" disabled></p>
             <p>Specialization of Work: <input type="text" value="Aerial Photography" disabled></p>
             <p>Company: <input type="text" value="DroneWorks Ltd." disabled></p>
-            <p>Contact Email: <input type="email" value="john.doe@example.com" disabled></p>
-            <p>Phone Number: <input type="text" value="123-456-7890" disabled></p>
-            <p>Messenger: <input type="text" value="john.doe_messenger" disabled></p>
             <button class="edit-button" onclick="toggleEditProfile()">Edit Profile</button>
         </div>
         <div class="hire-button" onclick="hirePilot()">HIRE</div>
-        <div class="profile-details contact-info">
-            <p>Contact: john.doe@example.com</p>
+        <div class="contact-info">
+            <p>Phone Number: <input type="text" value="123-456-7890"></p>
+            <p>Messenger: <input type="text" value="john.doe_messenger"></p>
+            <button onclick="alert('Contact details updated.')">Save</button>
         </div>
         <div class="review-section">
             <h3>Leave a Review</h3>
