@@ -35,24 +35,59 @@
             overflow: hidden;
             padding: 2em 0;
         }
+        .filter-section {
+            background-color: white;
+            padding: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 1em;
+        }
+        .filter-section select, .filter-section button {
+            margin-right: 1em;
+            padding: 0.5em;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
         .profile {
             background-color: white;
             margin: 1em 0;
             padding: 1em;
             border: 1px solid #ccc;
             border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .profile-details {
+            display: flex;
+            align-items: center;
         }
         .profile h3 {
             margin: 0;
             padding-bottom: 0.5em;
         }
-        .country {
+        .country, .feedback, .profile-link {
+            margin-left: 1em;
             font-size: 1.2em;
             color: #666;
         }
         .feedback {
             color: gold;
-            font-size: 1.2em;
+        }
+        .add-profile-button {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 1em;
+            margin-top: 1em;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .add-profile-button:hover {
+            background-color: #555;
         }
         footer {
             background-color: #333;
@@ -64,6 +99,27 @@
             bottom: 0;
         }
     </style>
+    <script>
+        function filterProfiles() {
+            const location = document.getElementById('locationFilter').value.toLowerCase();
+            const review = document.getElementById('reviewFilter').value;
+            const profiles = document.querySelectorAll('.profile');
+            profiles.forEach(profile => {
+                const country = profile.querySelector('.country').textContent.toLowerCase();
+                const feedback = profile.querySelector('.feedback').textContent;
+                if ((location && !country.includes(location)) || (review && !feedback.includes(review))) {
+                    profile.style.display = 'none';
+                } else {
+                    profile.style.display = 'flex';
+                }
+            });
+        }
+
+        function addNewProfile() {
+            // Logic to add a new profile; this is just a placeholder
+            alert('Add logic for adding a new profile.');
+        }
+    </script>
 </head>
 <body>
     <header>
@@ -76,68 +132,117 @@
         </nav>
     </header>
     <div class="container">
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <label for="locationFilter">Location:</label>
+            <select id="locationFilter" onchange="filterProfiles()">
+                <option value="">All</option>
+                <option value="SK">SK</option>
+                <option value="US">US</option>
+                <option value="CA">CA</option>
+                <option value="UK">UK</option>
+                <option value="AU">AU</option>
+                <option value="FR">FR</option>
+                <option value="DE">DE</option>
+                <option value="JP">JP</option>
+                <option value="KR">KR</option>
+                <option value="IT">IT</option>
+            </select>
+            <label for="reviewFilter">Review:</label>
+            <select id="reviewFilter" onchange="filterProfiles()">
+                <option value="">All</option>
+                <option value="5">5/5</option>
+                <option value="4">4/5</option>
+                <option value="3">3/5</option>
+            </select>
+            <button onclick="filterProfiles()">Filter</button>
+        </div>
+
         <!-- Sample Profiles Start -->
         <div class="profile">
-            <h3>John Doe</h3>
-            <p class="country">SK</p>
-            <p><a href="profile1.html">Profile</a></p>
-            <p class="feedback">4/5 ★★★★☆</p>
+            <div class="profile-details">
+                <h3>John Doe</h3>
+                <p class="country">SK</p>
+                <p class="profile-link"><a href="profile1.html">Profile</a></p>
+                <p class="feedback">4/5 ★★★★☆</p>
+            </div>
         </div>
         <div class="profile">
-            <h3>Jane Smith</h3>
-            <p class="country">US</p>
-            <p><a href="profile2.html">Profile</a></p>
-            <p class="feedback">5/5 ★★★★★</p>
+            <div class="profile-details">
+                <h3>Jane Smith</h3>
+                <p class="country">US</p>
+                <p class="profile-link"><a href="profile2.html">Profile</a></p>
+                <p class="feedback">5/5 ★★★★★</p>
+            </div>
         </div>
         <div class="profile">
-            <h3>Michael Brown</h3>
-            <p class="country">CA</p>
-            <p><a href="profile3.html">Profile</a></p>
-            <p class="feedback">4/5 ★★★★☆</p>
+            <div class="profile-details">
+                <h3>Michael Brown</h3>
+                <p class="country">CA</p>
+                <p class="profile-link"><a href="profile3.html">Profile</a></p>
+                <p class="feedback">4/5 ★★★★☆</p>
+            </div>
         </div>
         <div class="profile">
-            <h3>Linda Johnson</h3>
-            <p class="country">UK</p>
-            <p><a href="profile4.html">Profile</a></p>
-            <p class="feedback">3/5 ★★★☆☆</p>
+            <div class="profile-details">
+                <h3>Linda Johnson</h3>
+                <p class="country">UK</p>
+                <p class="profile-link"><a href="profile4.html">Profile</a></p>
+                <p class="feedback">3/5 ★★★☆☆</p>
+            </div>
         </div>
         <div class="profile">
-            <h3>William Garcia</h3>
-            <p class="country">AU</p>
-            <p><a href="profile5.html">Profile</a></p>
-            <p class="feedback">5/5 ★★★★★</p>
+            <div class="profile-details">
+                <h3>William Garcia</h3>
+                <p class="country">AU</p>
+                <p class="profile-link"><a href="profile5.html">Profile</a></p>
+                <p class="feedback">5/5 ★★★★★</p>
+            </div>
         </div>
         <div class="profile">
-            <h3>Elizabeth Martinez</h3>
-            <p class="country">FR</p>
-            <p><a href="profile6.html">Profile</a></p>
-            <p class="feedback">4/5 ★★★★☆</p>
+            <div class="profile-details">
+                <h3>Elizabeth Martinez</h3>
+                <p class="country">FR</p>
+                <p class="profile-link"><a href="profile6.html">Profile</a></p>
+                <p class="feedback">4/5 ★★★★☆</p>
+            </div>
         </div>
         <div class="profile">
-            <h3>David Wilson</h3>
-            <p class="country">DE</p>
-            <p><a href="profile7.html">Profile</a></p>
-            <p class="feedback">3/5 ★★★☆☆</p>
+            <div class="profile-details">
+                <h3>David Wilson</h3>
+                <p class="country">DE</p>
+                <p class="profile-link"><a href="profile7.html">Profile</a></p>
+                <p class="feedback">3/5 ★★★☆☆</p>
+            </div>
         </div>
         <div class="profile">
-            <h3>Mary Anderson</h3>
-            <p class="country">JP</p>
-            <p><a href="profile8.html">Profile</a></p>
-            <p class="feedback">5/5 ★★★★★</p>
+            <div class="profile-details">
+                <h3>Mary Anderson</h3>
+                <p class="country">JP</p>
+                <p class="profile-link"><a href="profile8.html">Profile</a></p>
+                <p class="feedback">5/5 ★★★★★</p>
+            </div>
         </div>
         <div class="profile">
-            <h3>James Thomas</h3>
-            <p class="country">KR</p>
-            <p><a href="profile9.html">Profile</a></p>
-            <p class="feedback">4/5 ★★★★☆</p>
+            <div class="profile-details">
+                <h3>James Thomas</h3>
+                <p class="country">KR</p>
+                <p class="profile-link"><a href="profile9.html">Profile</a></p>
+                <p class="feedback">4/5 ★★★★☆</p>
+            </div>
         </div>
         <div class="profile">
-            <h3>Patricia Lee</h3>
-            <p class="country">IT</p>
-            <p><a href="profile10.html">Profile</a></p>
-            <p class="feedback">4/5 ★★★★☆</p>
+            <div class="profile-details">
+                <h3>Patricia Lee</h3>
+                <p class="country">IT</p>
+                <p class="profile-link"><a href="profile10.html">Profile</a></p>
+                <p class="feedback">4/5 ★★★★☆</p>
+            </div>
         </div>
         <!-- Sample Profiles End -->
+
+        <!-- Add New Profile Button -->
+        <button class="add-profile-button" onclick="addNewProfile()">ADD NEW PROFILE</button>
     </div>
     <footer>
         <p>&copy; 2024 Drone and Geodetic Surveying Services</p>
