@@ -1,1 +1,111 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1em 0;
+            text-align: center;
+            position: relative;
+        }
+        nav {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 1em;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 0.5em;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            padding: 2em 0;
+            text-align: center;
+        }
+        .login-form {
+            background-color: white;
+            padding: 2em;
+            margin: auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 300px;
+        }
+        .login-form input {
+            width: 100%;
+            padding: 0.5em;
+            margin: 0.5em 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .login-form button {
+            width: 100%;
+            padding: 0.5em;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .login-form button:hover {
+            background-color: #555;
+        }
+        .forgot-password {
+            margin-top: 1em;
+        }
+        .forgot-password a {
+            color: #333;
+            text-decoration: none;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Login</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="droneService.html">Drone Service</a>
+            <a href="geodeticSurveying.html">Geodetic Surveying</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="login-form">
+            <h2>Login</h2>
+            <form action="/login" method="post">
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit">Log In</button>
+            </form>
+            <div class="forgot-password">
+                <a href="forgotPassword.html">Forgot Password?</a>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Drone and Geodetic Surveying Services</p>
+    </footer>
+</body>
+</html>
