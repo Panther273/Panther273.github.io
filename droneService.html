@@ -89,21 +89,6 @@
         .feedback {
             color: gold;
         }
-        .add-profile-button {
-            display: block;
-            width: 100%;
-            text-align: center;
-            padding: 1em;
-            margin-top: 1em;
-            background-color: #333;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .add-profile-button:hover {
-            background-color: #555;
-        }
         footer {
             background-color: #333;
             color: white;
@@ -112,6 +97,30 @@
             position: fixed;
             width: 100%;
             bottom: 0;
+        }
+        .new-profile-form {
+            display: none;
+            background-color: white;
+            padding: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 1em;
+        }
+        .new-profile-form input, .new-profile-form select, .new-profile-form button {
+            margin: 0.5em 0;
+            padding: 0.5em;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: calc(100% - 1em);
+        }
+        .new-profile-form button {
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .new-profile-form button:hover {
+            background-color: #555;
         }
     </style>
     <script>
@@ -132,14 +141,41 @@
             });
         }
 
-        function addNewProfile() {
-            // Logic to add a new profile; this is just a placeholder
-            alert('Add logic for adding a new profile.');
+        function showNewProfileForm() {
+            const form = document.querySelector('.new-profile-form');
+            form.style.display = 'block';
         }
 
-        function createProfile() {
-            // Logic to create a new profile; this is just a placeholder
-            alert('Redirect to profile creation page.');
+        function addNewProfile() {
+            const name = document.getElementById('newName').value;
+            const country = document.getElementById('newCountry').value;
+            const city = document.getElementById('newCity').value;
+            const feedback = document.getElementById('newFeedback').value;
+
+            if (name && country && city && feedback) {
+                const container = document.querySelector('.container');
+                const newProfileHTML = `
+                    <div class="profile">
+                        <div class="profile-details">
+                            <h3>${name}</h3>
+                            <p class="country">${country}</p>
+                            <p class="profile-link"><a href="#">Profile</a></p>
+                            <p class="city">${city}</p>
+                            <p class="feedback">${feedback}/5 ${'★'.repeat(feedback)}${'☆'.repeat(5 - feedback)}</p>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', newProfileHTML);
+
+                // Reset and hide form
+                document.getElementById('newName').value = '';
+                document.getElementById('newCountry').value = '';
+                document.getElementById('newCity').value = '';
+                document.getElementById('newFeedback').value = '';
+                document.querySelector('.new-profile-form').style.display = 'none';
+            } else {
+                alert('Please fill out all fields.');
+            }
         }
     </script>
 </head>
@@ -193,7 +229,7 @@
                     <option value="3">3/5</option>
                 </select>
             </div>
-            <button class="create-profile-button" onclick="createProfile()">CREATE A PROFILE</button>
+            <button class="create-profile-button" onclick="showNewProfileForm()">CREATE A PROFILE</button>
         </div>
 
         <!-- Sample Profiles Start -->
@@ -289,8 +325,31 @@
         </div>
         <!-- Sample Profiles End -->
 
-        <!-- Add New Profile Button -->
-        <button class="add-profile-button" onclick="addNewProfile()">ADD NEW PROFILE</button>
+        <!-- New Profile Form -->
+        <div class="new-profile-form">
+            <h2>Create New Profile</h2>
+            <label for="newName">Name:</label>
+            <input type="text" id="newName" placeholder="Enter your name">
+            <label for="newCountry">Country:</label>
+            <select id="newCountry">
+                <option value="">Select Country</option>
+                <option value="SK">SK</option>
+                <option value="US">US</option>
+                <option value="CA">CA</option>
+                <option value="UK">UK</option>
+                <option value="AU">AU</option>
+                <option value="FR">FR</option>
+                <option value="DE">DE</option>
+                <option value="JP">JP</option>
+                <option value="KR">KR</option>
+                <option value="IT">IT</option>
+            </select>
+            <label for="newCity">City:</label>
+            <input type="text" id="newCity" placeholder="Enter your city">
+            <label for="newFeedback">Review (out of 5):</label>
+            <input type="number" id="newFeedback" min="1" max="5" placeholder="Enter your review">
+            <button onclick="addNewProfile()">Submit Profile</button>
+        </div>
     </div>
     <footer>
         <p>&copy; 2024 Drone and Geodetic Surveying Services</p>
