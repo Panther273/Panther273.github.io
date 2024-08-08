@@ -50,7 +50,7 @@
         .form-container h2 {
             margin-top: 0;
         }
-        .form-container input {
+        .form-container input, .form-container select {
             width: 100%;
             padding: 0.5em;
             margin: 0.5em 0;
@@ -117,6 +117,11 @@
                 <input type="email" name="email" placeholder="Email" required>
                 <input type="password" name="password" placeholder="Password" required>
                 <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+                <select name="role" required>
+                    <option value="" disabled selected>Select your role</option>
+                    <option value="pilot">Pilot</option>
+                    <option value="geodetician">Geodetician</option>
+                </select>
                 <button type="submit">Register</button>
             </form>
         </div>
