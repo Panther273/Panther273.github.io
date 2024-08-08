@@ -131,9 +131,28 @@
     </style>
     <script>
         function hirePilot() {
-            document.querySelector('.contact-info').style.display = 'block';
-            // Notify the pilot (this is just a placeholder; you would implement the actual notification logic here)
-            alert('Notification sent to the pilot.');
+            fetch('/sendHireNotification', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    pilotEmail: 'john.doe@example.com',
+                    userName: 'Client Name'
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.querySelector('.contact-info').style.display = 'block';
+                    alert('Notification sent to the pilot.');
+                } else {
+                    alert('Failed to send notification.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred.');
+            });
         }
 
         function toggleEditProfile() {
