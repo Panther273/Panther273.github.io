@@ -49,6 +49,7 @@
             height: 150px;
             border-radius: 50%;
             border: 2px solid #333;
+            margin-left: 1em;
         }
         .profile-details {
             background-color: white;
@@ -76,6 +77,48 @@
             display: none;
             margin-top: 1em;
         }
+        .contact-info input, .profile-details input {
+            border: none;
+            background-color: transparent;
+            width: 100%;
+            font-size: 1em;
+        }
+        .edit-button {
+            background-color: #333;
+            color: white;
+            padding: 0.5em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 1em;
+        }
+        .edit-button:hover {
+            background-color: #555;
+        }
+        .review-section {
+            margin-top: 2em;
+        }
+        .review-section textarea {
+            width: 100%;
+            height: 100px;
+            margin-top: 1em;
+            padding: 0.5em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .rating {
+            margin-top: 1em;
+        }
+        .rating label {
+            margin-right: 0.5em;
+            cursor: pointer;
+        }
+        .rating input {
+            display: none;
+        }
+        .rating input:checked ~ .rating label {
+            color: gold;
+        }
         footer {
             background-color: #333;
             color: white;
@@ -92,6 +135,15 @@
             // Notify the pilot (this is just a placeholder; you would implement the actual notification logic here)
             alert('Notification sent to the pilot.');
         }
+
+        function toggleEditProfile() {
+            const inputs = document.querySelectorAll('.profile-details input');
+            inputs.forEach(input => {
+                input.disabled = !input.disabled;
+            });
+            document.querySelector('.edit-button').textContent = 
+                document.querySelector('.edit-button').textContent === 'Edit Profile' ? 'Save Changes' : 'Edit Profile';
+        }
     </script>
 </head>
 <body>
@@ -106,18 +158,38 @@
     </header>
     <div class="container">
         <div class="profile-header">
-            <h1>John Doe</h1>
+            <h1>John Doe, Pilot</h1>
             <img src="profile-picture.jpg" alt="John Doe">
         </div>
         <div class="profile-details">
-            <p>Date of Birth: <input type="date" value="1985-01-01"></p>
-            <p>City: <input type="text" value="Bratislava"></p>
-            <p>Specialization of Work: <input type="text" value="Aerial Photography"></p>
-            <p>Company: <input type="text" value="DroneWorks Ltd."></p>
+            <p>Date of Birth: <input type="date" value="1985-01-01" disabled></p>
+            <p>City: <input type="text" value="Bratislava" disabled></p>
+            <p>Specialization of Work: <input type="text" value="Aerial Photography" disabled></p>
+            <p>Company: <input type="text" value="DroneWorks Ltd." disabled></p>
+            <p>Contact Email: <input type="email" value="john.doe@example.com" disabled></p>
+            <p>Phone Number: <input type="text" value="123-456-7890" disabled></p>
+            <p>Messenger: <input type="text" value="john.doe_messenger" disabled></p>
+            <button class="edit-button" onclick="toggleEditProfile()">Edit Profile</button>
         </div>
         <div class="hire-button" onclick="hirePilot()">HIRE</div>
         <div class="profile-details contact-info">
             <p>Contact: john.doe@example.com</p>
+        </div>
+        <div class="review-section">
+            <h3>Leave a Review</h3>
+            <textarea placeholder="Write your review here..."></textarea>
+            <div class="rating">
+                <label for="star5">&#9733;</label>
+                <input type="radio" id="star5" name="rating" value="5">
+                <label for="star4">&#9733;</label>
+                <input type="radio" id="star4" name="rating" value="4">
+                <label for="star3">&#9733;</label>
+                <input type="radio" id="star3" name="rating" value="3">
+                <label for="star2">&#9733;</label>
+                <input type="radio" id="star2" name="rating" value="2">
+                <label for="star1">&#9733;</label>
+                <input type="radio" id="star1" name="rating" value="1">
+            </div>
         </div>
     </div>
     <footer>
