@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login and Register</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -34,24 +34,30 @@
             margin: auto;
             overflow: hidden;
             padding: 2em 0;
-            text-align: center;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
         }
-        .login-form {
+        .form-container {
             background-color: white;
             padding: 2em;
-            margin: auto;
+            margin: 1em;
             border: 1px solid #ccc;
             border-radius: 5px;
             width: 300px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        .login-form input {
+        .form-container h2 {
+            margin-top: 0;
+        }
+        .form-container input {
             width: 100%;
             padding: 0.5em;
             margin: 0.5em 0;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
-        .login-form button {
+        .form-container button {
             width: 100%;
             padding: 0.5em;
             background-color: #333;
@@ -60,13 +66,14 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        .login-form button:hover {
+        .form-container button:hover {
             background-color: #555;
         }
-        .forgot-password {
+        .forgot-password, .register-link {
             margin-top: 1em;
+            text-align: center;
         }
-        .forgot-password a {
+        .forgot-password a, .register-link a {
             color: #333;
             text-decoration: none;
         }
@@ -83,16 +90,17 @@
 </head>
 <body>
     <header>
-        <h1>Login</h1>
+        <h1>Login and Register</h1>
         <nav>
             <a href="index.html">Home</a>
             <a href="droneService.html">Drone Service</a>
             <a href="geodeticSurveying.html">Geodetic Surveying</a>
-            <a href="contact.html">Contact</a>
+            <a href="login.html">Login</a>
+            <a href="register.html">Register</a>
         </nav>
     </header>
     <div class="container">
-        <div class="login-form">
+        <div class="form-container">
             <h2>Login</h2>
             <form action="/login" method="post">
                 <input type="email" name="email" placeholder="Email" required>
@@ -102,6 +110,15 @@
             <div class="forgot-password">
                 <a href="forgotPassword.html">Forgot Password?</a>
             </div>
+        </div>
+        <div class="form-container">
+            <h2>Register</h2>
+            <form action="/register" method="post">
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+                <button type="submit">Register</button>
+            </form>
         </div>
     </div>
     <footer>
