@@ -41,12 +41,27 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             margin-bottom: 1em;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
         .filter-section select, .filter-section button {
             margin-right: 1em;
             padding: 0.5em;
             border-radius: 5px;
             border: 1px solid #ccc;
+        }
+        .filter-section .create-profile-button {
+            margin-left: auto;
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 0.5em 1em;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .filter-section .create-profile-button:hover {
+            background-color: #555;
         }
         .profile {
             background-color: white;
@@ -66,7 +81,7 @@
             margin: 0;
             padding-bottom: 0.5em;
         }
-        .country, .feedback, .profile-link {
+        .country, .city, .feedback, .profile-link {
             margin-left: 1em;
             font-size: 1.2em;
             color: #666;
@@ -102,12 +117,14 @@
     <script>
         function filterProfiles() {
             const location = document.getElementById('locationFilter').value.toLowerCase();
+            const city = document.getElementById('cityFilter').value.toLowerCase();
             const review = document.getElementById('reviewFilter').value;
             const profiles = document.querySelectorAll('.profile');
             profiles.forEach(profile => {
                 const country = profile.querySelector('.country').textContent.toLowerCase();
+                const profileCity = profile.querySelector('.city').textContent.toLowerCase();
                 const feedback = profile.querySelector('.feedback').textContent;
-                if ((location && !country.includes(location)) || (review && !feedback.includes(review))) {
+                if ((location && !country.includes(location)) || (city && !profileCity.includes(city)) || (review && !feedback.includes(review))) {
                     profile.style.display = 'none';
                 } else {
                     profile.style.display = 'flex';
@@ -118,6 +135,11 @@
         function addNewProfile() {
             // Logic to add a new profile; this is just a placeholder
             alert('Add logic for adding a new profile.');
+        }
+
+        function createProfile() {
+            // Logic to create a new profile; this is just a placeholder
+            alert('Redirect to profile creation page.');
         }
     </script>
 </head>
@@ -134,28 +156,44 @@
     <div class="container">
         <!-- Filter Section -->
         <div class="filter-section">
-            <label for="locationFilter">Location:</label>
-            <select id="locationFilter" onchange="filterProfiles()">
-                <option value="">All</option>
-                <option value="SK">SK</option>
-                <option value="US">US</option>
-                <option value="CA">CA</option>
-                <option value="UK">UK</option>
-                <option value="AU">AU</option>
-                <option value="FR">FR</option>
-                <option value="DE">DE</option>
-                <option value="JP">JP</option>
-                <option value="KR">KR</option>
-                <option value="IT">IT</option>
-            </select>
-            <label for="reviewFilter">Review:</label>
-            <select id="reviewFilter" onchange="filterProfiles()">
-                <option value="">All</option>
-                <option value="5">5/5</option>
-                <option value="4">4/5</option>
-                <option value="3">3/5</option>
-            </select>
-            <button onclick="filterProfiles()">Filter</button>
+            <div>
+                <label for="locationFilter">Location:</label>
+                <select id="locationFilter" onchange="filterProfiles()">
+                    <option value="">All</option>
+                    <option value="SK">SK</option>
+                    <option value="US">US</option>
+                    <option value="CA">CA</option>
+                    <option value="UK">UK</option>
+                    <option value="AU">AU</option>
+                    <option value="FR">FR</option>
+                    <option value="DE">DE</option>
+                    <option value="JP">JP</option>
+                    <option value="KR">KR</option>
+                    <option value="IT">IT</option>
+                </select>
+                <label for="cityFilter">City:</label>
+                <select id="cityFilter" onchange="filterProfiles()">
+                    <option value="">All</option>
+                    <option value="Bratislava">Bratislava</option>
+                    <option value="New York">New York</option>
+                    <option value="Toronto">Toronto</option>
+                    <option value="London">London</option>
+                    <option value="Sydney">Sydney</option>
+                    <option value="Paris">Paris</option>
+                    <option value="Berlin">Berlin</option>
+                    <option value="Tokyo">Tokyo</option>
+                    <option value="Seoul">Seoul</option>
+                    <option value="Rome">Rome</option>
+                </select>
+                <label for="reviewFilter">Review:</label>
+                <select id="reviewFilter" onchange="filterProfiles()">
+                    <option value="">All</option>
+                    <option value="5">5/5</option>
+                    <option value="4">4/5</option>
+                    <option value="3">3/5</option>
+                </select>
+            </div>
+            <button class="create-profile-button" onclick="createProfile()">CREATE A PROFILE</button>
         </div>
 
         <!-- Sample Profiles Start -->
@@ -164,6 +202,7 @@
                 <h3>John Doe</h3>
                 <p class="country">SK</p>
                 <p class="profile-link"><a href="profile1.html">Profile</a></p>
+                <p class="city">Bratislava</p>
                 <p class="feedback">4/5 ★★★★☆</p>
             </div>
         </div>
@@ -172,6 +211,7 @@
                 <h3>Jane Smith</h3>
                 <p class="country">US</p>
                 <p class="profile-link"><a href="profile2.html">Profile</a></p>
+                <p class="city">New York</p>
                 <p class="feedback">5/5 ★★★★★</p>
             </div>
         </div>
@@ -180,6 +220,7 @@
                 <h3>Michael Brown</h3>
                 <p class="country">CA</p>
                 <p class="profile-link"><a href="profile3.html">Profile</a></p>
+                <p class="city">Toronto</p>
                 <p class="feedback">4/5 ★★★★☆</p>
             </div>
         </div>
@@ -188,6 +229,7 @@
                 <h3>Linda Johnson</h3>
                 <p class="country">UK</p>
                 <p class="profile-link"><a href="profile4.html">Profile</a></p>
+                <p class="city">London</p>
                 <p class="feedback">3/5 ★★★☆☆</p>
             </div>
         </div>
@@ -196,6 +238,7 @@
                 <h3>William Garcia</h3>
                 <p class="country">AU</p>
                 <p class="profile-link"><a href="profile5.html">Profile</a></p>
+                <p class="city">Sydney</p>
                 <p class="feedback">5/5 ★★★★★</p>
             </div>
         </div>
@@ -204,6 +247,7 @@
                 <h3>Elizabeth Martinez</h3>
                 <p class="country">FR</p>
                 <p class="profile-link"><a href="profile6.html">Profile</a></p>
+                <p class="city">Paris</p>
                 <p class="feedback">4/5 ★★★★☆</p>
             </div>
         </div>
@@ -212,6 +256,7 @@
                 <h3>David Wilson</h3>
                 <p class="country">DE</p>
                 <p class="profile-link"><a href="profile7.html">Profile</a></p>
+                <p class="city">Berlin</p>
                 <p class="feedback">3/5 ★★★☆☆</p>
             </div>
         </div>
@@ -220,6 +265,7 @@
                 <h3>Mary Anderson</h3>
                 <p class="country">JP</p>
                 <p class="profile-link"><a href="profile8.html">Profile</a></p>
+                <p class="city">Tokyo</p>
                 <p class="feedback">5/5 ★★★★★</p>
             </div>
         </div>
@@ -228,6 +274,7 @@
                 <h3>James Thomas</h3>
                 <p class="country">KR</p>
                 <p class="profile-link"><a href="profile9.html">Profile</a></p>
+                <p class="city">Seoul</p>
                 <p class="feedback">4/5 ★★★★☆</p>
             </div>
         </div>
@@ -236,6 +283,7 @@
                 <h3>Patricia Lee</h3>
                 <p class="country">IT</p>
                 <p class="profile-link"><a href="profile10.html">Profile</a></p>
+                <p class="city">Rome</p>
                 <p class="feedback">4/5 ★★★★☆</p>
             </div>
         </div>
