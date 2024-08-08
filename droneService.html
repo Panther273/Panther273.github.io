@@ -30,29 +30,34 @@
             margin: 0 0.5em;
         }
         .container {
-            width: 90%; /* Increased width */
+            width: 80%;
             margin: auto;
             overflow: hidden;
             padding: 2em 0;
         }
-        .filter-section {
+        .filter-form, .create-profile-form {
             background-color: white;
-            padding: 1em;
+            padding: 2em;
             border: 1px solid #ccc;
             border-radius: 5px;
-            margin-bottom: 1em;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            margin-bottom: 2em;
         }
-        .filter-section select, .filter-section button {
-            margin-right: 1em;
+        .filter-form input, .create-profile-form input {
+            margin: 0.5em 0;
             padding: 0.5em;
-            border-radius: 5px;
             border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
         }
-        .filter-section .create-profile-button {
-            margin-left: auto;
+        .create-profile-form textarea {
+            margin: 0.5em 0;
+            padding: 0.5em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            height: 100px;
+        }
+        .create-profile-form button {
             background-color: #333;
             color: white;
             border: none;
@@ -60,7 +65,7 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        .filter-section .create-profile-button:hover {
+        .create-profile-form button:hover {
             background-color: #555;
         }
         .profile {
@@ -69,24 +74,21 @@
             padding: 1em;
             border: 1px solid #ccc;
             border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .profile-details {
-            display: flex;
-            align-items: center;
+            position: relative;
         }
         .profile h3 {
             margin: 0;
             padding-bottom: 0.5em;
         }
-        .country, .city, .feedback, .profile-link {
-            margin-left: 1em;
-            font-size: 1.2em;
-            color: #666;
+        .profile .details {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-        .feedback {
+        .profile .details a {
+            margin-right: 1em;
+        }
+        .profile .details .feedback {
             color: gold;
         }
         footer {
@@ -94,90 +96,12 @@
             color: white;
             text-align: center;
             padding: 1em 0;
-            position: relative; /* Changed from fixed to relative */
+            position: relative;
+            margin-top: 2em; /* Adjust to make space for footer */
             width: 100%;
-            margin-top: 2em; /* Added margin to ensure spacing from content */
-        }
-        .new-profile-form {
-            display: none;
-            background-color: white;
-            padding: 1em;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-top: 1em;
-        }
-        .new-profile-form input, .new-profile-form select, .new-profile-form button {
-            margin: 0.5em 0;
-            padding: 0.5em;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            width: calc(100% - 1em);
-        }
-        .new-profile-form button {
-            background-color: #333;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        .new-profile-form button:hover {
-            background-color: #555;
+            bottom: 0;
         }
     </style>
-    <script>
-        function filterProfiles() {
-            const location = document.getElementById('locationFilter').value.toLowerCase();
-            const city = document.getElementById('cityFilter').value.toLowerCase();
-            const review = document.getElementById('reviewFilter').value;
-            const profiles = document.querySelectorAll('.profile');
-            profiles.forEach(profile => {
-                const country = profile.querySelector('.country').textContent.toLowerCase();
-                const profileCity = profile.querySelector('.city').textContent.toLowerCase();
-                const feedback = profile.querySelector('.feedback').textContent;
-                if ((location && !country.includes(location)) || (city && !profileCity.includes(city)) || (review && !feedback.includes(review))) {
-                    profile.style.display = 'none';
-                } else {
-                    profile.style.display = 'flex';
-                }
-            });
-        }
-
-        function showNewProfileForm() {
-            const form = document.querySelector('.new-profile-form');
-            form.style.display = 'block';
-        }
-
-        function addNewProfile() {
-            const name = document.getElementById('newName').value;
-            const country = document.getElementById('newCountry').value;
-            const city = document.getElementById('newCity').value;
-            const feedback = document.getElementById('newFeedback').value;
-
-            if (name && country && city && feedback) {
-                const container = document.querySelector('.container');
-                const newProfileHTML = `
-                    <div class="profile">
-                        <div class="profile-details">
-                            <h3>${name}</h3>
-                            <p class="country">${country}</p>
-                            <p class="profile-link"><a href="#">Profile</a></p>
-                            <p class="city">${city}</p>
-                            <p class="feedback">${feedback}/5 ${'★'.repeat(feedback)}${'☆'.repeat(5 - feedback)}</p>
-                        </div>
-                    </div>
-                `;
-                container.insertAdjacentHTML('beforeend', newProfileHTML);
-
-                // Reset and hide form
-                document.getElementById('newName').value = '';
-                document.getElementById('newCountry').value = '';
-                document.getElementById('newCity').value = '';
-                document.getElementById('newFeedback').value = '';
-                document.querySelector('.new-profile-form').style.display = 'none';
-            } else {
-                alert('Please fill out all fields.');
-            }
-        }
-    </script>
 </head>
 <body>
     <header>
@@ -190,169 +114,112 @@
         </nav>
     </header>
     <div class="container">
-        <!-- Filter Section -->
-        <div class="filter-section">
-            <div>
-                <label for="locationFilter">Location:</label>
-                <select id="locationFilter" onchange="filterProfiles()">
-                    <option value="">All</option>
-                    <option value="SK">SK</option>
-                    <option value="US">US</option>
-                    <option value="CA">CA</option>
-                    <option value="UK">UK</option>
-                    <option value="AU">AU</option>
-                    <option value="FR">FR</option>
-                    <option value="DE">DE</option>
-                    <option value="JP">JP</option>
-                    <option value="KR">KR</option>
-                    <option value="IT">IT</option>
-                </select>
-                <label for="cityFilter">City:</label>
-                <select id="cityFilter" onchange="filterProfiles()">
-                    <option value="">All</option>
-                    <option value="Bratislava">Bratislava</option>
-                    <option value="New York">New York</option>
-                    <option value="Toronto">Toronto</option>
-                    <option value="London">London</option>
-                    <option value="Sydney">Sydney</option>
-                    <option value="Paris">Paris</option>
-                    <option value="Berlin">Berlin</option>
-                    <option value="Tokyo">Tokyo</option>
-                    <option value="Seoul">Seoul</option>
-                    <option value="Rome">Rome</option>
-                </select>
-                <label for="reviewFilter">Review:</label>
-                <select id="reviewFilter" onchange="filterProfiles()">
-                    <option value="">All</option>
-                    <option value="5">5/5</option>
-                    <option value="4">4/5</option>
-                    <option value="3">3/5</option>
-                </select>
-            </div>
-            <button class="create-profile-button" onclick="showNewProfileForm()">CREATE A PROFILE</button>
-        </div>
-
-        <!-- Sample Profiles Start -->
-        <div class="profile">
-            <div class="profile-details">
-                <h3>John Doe</h3>
-                <p class="country">SK</p>
-                <p class="profile-link"><a href="profile1.html">Profile</a></p>
-                <p class="city">Bratislava</p>
-                <p class="feedback">4/5 ★★★★☆</p>
-            </div>
-        </div>
-        <div class="profile">
-            <div class="profile-details">
-                <h3>Jane Smith</h3>
-                <p class="country">US</p>
-                <p class="profile-link"><a href="profile2.html">Profile</a></p>
-                <p class="city">New York</p>
-                <p class="feedback">5/5 ★★★★★</p>
-            </div>
-        </div>
-        <div class="profile">
-            <div class="profile-details">
-                <h3>Michael Brown</h3>
-                <p class="country">CA</p>
-                <p class="profile-link"><a href="profile3.html">Profile</a></p>
-                <p class="city">Toronto</p>
-                <p class="feedback">4/5 ★★★★☆</p>
-            </div>
-        </div>
-        <div class="profile">
-            <div class="profile-details">
-                <h3>Linda Johnson</h3>
-                <p class="country">UK</p>
-                <p class="profile-link"><a href="profile4.html">Profile</a></p>
-                <p class="city">London</p>
-                <p class="feedback">3/5 ★★★☆☆</p>
-            </div>
-        </div>
-        <div class="profile">
-            <div class="profile-details">
-                <h3>William Garcia</h3>
-                <p class="country">AU</p>
-                <p class="profile-link"><a href="profile5.html">Profile</a></p>
-                <p class="city">Sydney</p>
-                <p class="feedback">5/5 ★★★★★</p>
-            </div>
-        </div>
-        <div class="profile">
-            <div class="profile-details">
-                <h3>Elizabeth Martinez</h3>
-                <p class="country">FR</p>
-                <p class="profile-link"><a href="profile6.html">Profile</a></p>
-                <p class="city">Paris</p>
-                <p class="feedback">4/5 ★★★★☆</p>
-            </div>
-        </div>
-        <div class="profile">
-            <div class="profile-details">
-                <h3>David Wilson</h3>
-                <p class="country">DE</p>
-                <p class="profile-link"><a href="profile7.html">Profile</a></p>
-                <p class="city">Berlin</p>
-                <p class="feedback">3/5 ★★★☆☆</p>
-            </div>
-        </div>
-        <div class="profile">
-            <div class="profile-details">
-                <h3>Mary Anderson</h3>
-                <p class="country">JP</p>
-                <p class="profile-link"><a href="profile8.html">Profile</a></p>
-                <p class="city">Tokyo</p>
-                <p class="feedback">5/5 ★★★★★</p>
-            </div>
-        </div>
-        <div class="profile">
-            <div class="profile-details">
-                <h3>James Thomas</h3>
-                <p class="country">KR</p>
-                <p class="profile-link"><a href="profile9.html">Profile</a></p>
-                <p class="city">Seoul</p>
-                <p class="feedback">4/5 ★★★★☆</p>
-            </div>
-        </div>
-        <div class="profile">
-            <div class="profile-details">
-                <h3>Patricia Lee</h3>
-                <p class="country">IT</p>
-                <p class="profile-link"><a href="profile10.html">Profile</a></p>
-                <p class="city">Rome</p>
-                <p class="feedback">4/5 ★★★★☆</p>
-            </div>
-        </div>
-        <!-- Sample Profiles End -->
-
-        <!-- New Profile Form -->
-        <div class="new-profile-form">
+        <div class="create-profile-form" id="createProfileForm">
             <h2>Create New Profile</h2>
-            <label for="newName">Name:</label>
-            <input type="text" id="newName" placeholder="Enter your name">
-            <label for="newCountry">Country:</label>
-            <select id="newCountry">
-                <option value="">Select Country</option>
-                <option value="SK">SK</option>
-                <option value="US">US</option>
-                <option value="CA">CA</option>
-                <option value="UK">UK</option>
-                <option value="AU">AU</option>
-                <option value="FR">FR</option>
-                <option value="DE">DE</option>
-                <option value="JP">JP</option>
-                <option value="KR">KR</option>
-                <option value="IT">IT</option>
-            </select>
-            <label for="newCity">City:</label>
-            <input type="text" id="newCity" placeholder="Enter your city">
-            <label for="newFeedback">Review (out of 5):</label>
-            <input type="number" id="newFeedback" min="1" max="5" placeholder="Enter your review">
-            <button onclick="addNewProfile()">Submit Profile</button>
+            <label for="name">Name:</label>
+            <input type="text" id="name" placeholder="Enter name">
+            <label for="city">City:</label>
+            <input type="text" id="city" placeholder="Enter city">
+            <label for="state">State:</label>
+            <input type="text" id="state" placeholder="Enter state">
+            <label for="specialization">Specialization of Work:</label>
+            <input type="text" id="specialization" placeholder="Enter specialization">
+            <label for="company">Company:</label>
+            <input type="text" id="company" placeholder="Enter company">
+            <button onclick="createProfile()">Create Profile</button>
         </div>
+        <div class="filter-form">
+            <h2>Filter Profiles</h2>
+            <label for="filterState">State:</label>
+            <input type="text" id="filterState" placeholder="Enter state">
+            <label for="filterCity">City:</label>
+            <input type="text" id="filterCity" placeholder="Enter city">
+            <button onclick="filterProfiles()">Filter</button>
+        </div>
+        <!-- Profiles will be dynamically added here -->
+        <div id="profiles">
+            <!-- Example profiles, these will be dynamically added -->
+            <div class="profile">
+                <div class="details">
+                    <h3>John Doe</h3>
+                    <div class="feedback">4/5 ★★★★☆</div>
+                    <a href="profile1.html">Profile</a>
+                </div>
+                <p class="country">SK</p>
+            </div>
+            <div class="profile">
+                <div class="details">
+                    <h3>Jane Smith</h3>
+                    <div class="feedback">5/5 ★★★★★</div>
+                    <a href="profile2.html">Profile</a>
+                </div>
+                <p class="country">US</p>
+            </div>
+            <!-- More profiles here -->
+        </div>
+        <button onclick="toggleCreateProfileForm()">Create New Profile</button>
     </div>
     <footer>
         <p>&copy; 2024 Drone and Geodetic Surveying Services</p>
     </footer>
+    <script>
+        function createProfile() {
+            const name = document.getElementById('name').value;
+            const city = document.getElementById('city').value;
+            const state = document.getElementById('state').value;
+            const specialization = document.getElementById('specialization').value;
+            const company = document.getElementById('company').value;
+
+            if (!name || !city || !state || !specialization || !company) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            // Create a new profile element
+            const profile = document.createElement('div');
+            profile.className = 'profile';
+            profile.innerHTML = `
+                <div class="details">
+                    <h3>${name}</h3>
+                    <div class="feedback">No reviews yet</div>
+                    <a href="#">Profile</a>
+                </div>
+                <p class="country">${state}</p>
+            `;
+            document.getElementById('profiles').appendChild(profile);
+
+            // Clear the form
+            document.getElementById('name').value = '';
+            document.getElementById('city').value = '';
+            document.getElementById('state').value = '';
+            document.getElementById('specialization').value = '';
+            document.getElementById('company').value = '';
+
+            // Hide the create profile form
+            document.getElementById('createProfileForm').style.display = 'none';
+        }
+
+        function toggleCreateProfileForm() {
+            const form = document.getElementById('createProfileForm');
+            form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
+        }
+
+        function filterProfiles() {
+            const state = document.getElementById('filterState').value.toLowerCase();
+            const city = document.getElementById('filterCity').value.toLowerCase();
+            const profiles = document.querySelectorAll('.profile');
+
+            profiles.forEach(profile => {
+                const profileState = profile.querySelector('.country').textContent.toLowerCase();
+                const profileCity = profile.querySelector('.details h3').textContent.toLowerCase(); // Example, update based on real city data
+
+                if (profileState.includes(state) && profileCity.includes(city)) {
+                    profile.style.display = 'block';
+                } else {
+                    profile.style.display = 'none';
+                }
+            });
+        }
+    </script>
 </body>
 </html>
