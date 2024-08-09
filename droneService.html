@@ -35,7 +35,20 @@
             overflow: hidden;
             padding: 2em 0;
         }
+        .filter-button, .create-profile-button {
+            padding: 0.5em 1em;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 1em;
+        }
+        .filter-button:hover, .create-profile-button:hover {
+            background-color: #555;
+        }
         .filter {
+            display: none;
             background-color: white;
             padding: 1em;
             margin-bottom: 1em;
@@ -83,12 +96,12 @@
             margin-top: 1em;
         }
         .create-profile {
+            display: none;
             background-color: white;
             padding: 1em;
             margin-bottom: 1em;
             border-radius: 5px;
             border: 1px solid #ccc;
-            display: none;
         }
         .create-profile input, .create-profile select {
             width: 100%;
@@ -108,20 +121,31 @@
         }
     </style>
     <script>
+        function toggleFilter() {
+            const filter = document.querySelector('.filter');
+            filter.style.display = filter.style.display === 'none' || filter.style.display === '' ? 'block' : 'none';
+        }
+
         function filterProfiles() {
             const state = document.getElementById('filter-state').value;
             const region = document.getElementById('filter-region').value;
             const profiles = document.querySelectorAll('.profile');
+            let found = false;
 
             profiles.forEach(profile => {
                 const profileState = profile.getAttribute('data-state');
                 const profileRegion = profile.getAttribute('data-region');
                 if ((state === '' || profileState === state) && (region === '' || profileRegion === region)) {
                     profile.style.display = 'block';
+                    found = true;
                 } else {
                     profile.style.display = 'none';
                 }
             });
+
+            if (!found) {
+                alert('NOT PILOT FOUND!');
+            }
         }
 
         function showCreateProfileForm() {
@@ -156,6 +180,7 @@
             const lastName = document.getElementById('last-name').value;
             const state = document.getElementById('state').value;
             const region = document.getElementById('region').value;
+            const code = document.getElementById('code').value;
             const container = document.querySelector('.container');
 
             const profile = document.createElement('div');
@@ -185,6 +210,7 @@
         </nav>
     </header>
     <div class="container">
+        <button class="filter-button" onclick="toggleFilter()">Filter</button>
         <div class="filter">
             <select id="filter-state" onchange="updateFilterRegionOptions()">
                 <option value="">Select State</option>
@@ -194,9 +220,9 @@
             <select id="filter-region">
                 <option value="">Select Region</option>
             </select>
-            <button onclick="filterProfiles()">Filter</button>
-            <button onclick="showCreateProfileForm()">CREATE NEW PROFILE</button>
+            <button onclick="filterProfiles()">Search</button>
         </div>
+        <button class="create-profile-button" onclick="showCreateProfileForm()">CREATE NEW PROFILE</button>
         <div class="create-profile">
             <h2>Create New Profile</h2>
             <input type="text" id="name" placeholder="Name">
@@ -209,6 +235,7 @@
             <select id="region">
                 <option value="">Select Region</option>
             </select>
+            <input type="text" id="code" placeholder="Registration Code">
             <button onclick="createProfile()">Save Profile</button>
         </div>
         <!-- Sample Profiles Start -->
@@ -233,33 +260,59 @@
             <p><a href="profile3.html">Profile</a></p>
             <p class="feedback">4/5 ★★★★☆</p>
         </div>
+        <div class="profile" data-state="UK" data-region="London">
+            <h3>Linda Johnson</h3>
+            <p class="country">UK</p>
+            <p class="city">London</p>
+            <p><a href="profile4.html">Profile</a></p>
+            <p class="feedback">3/5 ★★★☆☆</p>
+        </div>
+        <div class="profile" data-state="AU" data-region="Sydney">
+            <h3>William Garcia</h3>
+            <p class="country">AU</p>
+            <p class="city">Sydney</p>
+            <p><a href="profile5.html">Profile</a></p>
+            <p class="feedback">5/5 ★★★★★</p>
+        </div>
+        <div class="profile" data-state="FR" data-region="Paris">
+            <h3>Elizabeth Martinez</h3>
+            <p class="country">FR</p>
+            <p class="city">Paris</p>
+            <p><a href="profile6.html">Profile</a></p>
+            <p class="feedback">4/5 ★★★★☆</p>
+        </div>
+        <div class="profile" data-state="DE" data-region="Berlin">
+            <h3>David Wilson</h3>
+            <p class="country">DE</p>
+            <p class="city">Berlin</p>
+            <p><a href="profile7.html">Profile</a></p>
+            <p class="feedback">3/5 ★★★☆☆</p>
+        </div>
+        <div class="profile" data-state="JP" data-region="Tokyo">
+            <h3>Mary Anderson</h3>
+            <p class="country">JP</p>
+            <p class="city">Tokyo</p>
+            <p><a href="profile8.html">Profile</a></p>
+            <p class="feedback">5/5 ★★★★★</p>
+        </div>
+        <div class="profile" data-state="KR" data-region="Seoul">
+            <h3>James Thomas</h3>
+            <p class="country">KR</p>
+            <p class="city">Seoul</p>
+            <p><a href="profile9.html">Profile</a></p>
+            <p class="feedback">4/5 ★★★★☆</p>
+        </div>
+        <div class="profile" data-state="IT" data-region="Rome">
+            <h3>Patricia Lee</h3>
+            <p class="country">IT</p>
+            <p class="city">Rome</p>
+            <p><a href="profile10.html">Profile</a></p>
+            <p class="feedback">4/5 ★★★★☆</p>
+        </div>
         <!-- Sample Profiles End -->
     </div>
     <footer>
         <p>&copy; 2024 Drone and Geodetic Surveying Services</p>
     </footer>
-    <script>
-        function updateFilterRegionOptions() {
-            const state = document.getElementById('filter-state').value;
-            const regionSelect = document.getElementById('filter-region');
-            let regions = [];
-
-            if (state === 'SK') {
-                regions = [
-                    'Bratislavský kraj', 'Trnavský kraj', 'Trenčiansky kraj', 'Nitriansky kraj',
-                    'Žilinský kraj', 'Banskobystrický kraj', 'Prešovský kraj', 'Košický kraj'
-                ];
-            } else if (state === 'CZ') {
-                regions = [
-                    'Hlavní město Praha', 'Středočeský kraj', 'Jihočeský kraj', 'Plzeňský kraj',
-                    'Karlovarský kraj', 'Ústecký kraj', 'Liberecký kraj', 'Královéhradecký kraj',
-                    'Pardubický kraj', 'Kraj Vysočina', 'Jihomoravský kraj', 'Olomoucký kraj',
-                    'Moravskoslezský kraj', 'Zlínský kraj'
-                ];
-            }
-
-            regionSelect.innerHTML = regions.map(region => `<option value="${region}">${region}</option>`).join('');
-        }
-    </script>
 </body>
 </html>
