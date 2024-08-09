@@ -35,37 +35,26 @@
             overflow: hidden;
             padding: 2em 0;
         }
-        .filter-form, .create-profile-form {
+        .filter {
             background-color: white;
-            padding: 2em;
-            border: 1px solid #ccc;
+            padding: 1em;
+            margin-bottom: 1em;
             border-radius: 5px;
-            margin-bottom: 2em;
+            border: 1px solid #ccc;
         }
-        .filter-form input, .create-profile-form input {
-            margin: 0.5em 0;
+        .filter select {
             padding: 0.5em;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            width: 100%;
+            margin-right: 1em;
         }
-        .create-profile-form textarea {
-            margin: 0.5em 0;
-            padding: 0.5em;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            width: 100%;
-            height: 100px;
-        }
-        .create-profile-form button {
+        .filter button {
+            padding: 0.5em 1em;
             background-color: #333;
             color: white;
             border: none;
-            padding: 0.5em 1em;
             border-radius: 5px;
             cursor: pointer;
         }
-        .create-profile-form button:hover {
+        .filter button:hover {
             background-color: #555;
         }
         .profile {
@@ -74,34 +63,116 @@
             padding: 1em;
             border: 1px solid #ccc;
             border-radius: 5px;
-            position: relative;
         }
         .profile h3 {
             margin: 0;
             padding-bottom: 0.5em;
         }
-        .profile .details {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        .profile p {
+            margin: 0.5em 0;
         }
-        .profile .details a {
-            margin-right: 1em;
-        }
-        .profile .details .feedback {
-            color: gold;
+        .country, .city, .feedback {
+            font-size: 1em;
+            color: #666;
         }
         footer {
             background-color: #333;
             color: white;
             text-align: center;
             padding: 1em 0;
-            position: relative;
-            margin-top: 2em; /* Adjust to make space for footer */
+            margin-top: 1em;
+        }
+        .create-profile {
+            background-color: white;
+            padding: 1em;
+            margin-bottom: 1em;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            display: none;
+        }
+        .create-profile input, .create-profile select {
             width: 100%;
-            bottom: 0;
+            padding: 0.5em;
+            margin-bottom: 1em;
+        }
+        .create-profile button {
+            padding: 0.5em 1em;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .create-profile button:hover {
+            background-color: #555;
         }
     </style>
+    <script>
+        function filterProfiles() {
+            const state = document.getElementById('filter-state').value;
+            const region = document.getElementById('filter-region').value;
+            const profiles = document.querySelectorAll('.profile');
+
+            profiles.forEach(profile => {
+                const profileState = profile.getAttribute('data-state');
+                const profileRegion = profile.getAttribute('data-region');
+                if ((state === '' || profileState === state) && (region === '' || profileRegion === region)) {
+                    profile.style.display = 'block';
+                } else {
+                    profile.style.display = 'none';
+                }
+            });
+        }
+
+        function showCreateProfileForm() {
+            const form = document.querySelector('.create-profile');
+            form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
+        }
+
+        function updateRegionOptions() {
+            const state = document.getElementById('state').value;
+            const regionSelect = document.getElementById('region');
+            let regions = [];
+
+            if (state === 'SK') {
+                regions = [
+                    'Bratislavský kraj', 'Trnavský kraj', 'Trenčiansky kraj', 'Nitriansky kraj',
+                    'Žilinský kraj', 'Banskobystrický kraj', 'Prešovský kraj', 'Košický kraj'
+                ];
+            } else if (state === 'CZ') {
+                regions = [
+                    'Hlavní město Praha', 'Středočeský kraj', 'Jihočeský kraj', 'Plzeňský kraj',
+                    'Karlovarský kraj', 'Ústecký kraj', 'Liberecký kraj', 'Královéhradecký kraj',
+                    'Pardubický kraj', 'Kraj Vysočina', 'Jihomoravský kraj', 'Olomoucký kraj',
+                    'Moravskoslezský kraj', 'Zlínský kraj'
+                ];
+            }
+
+            regionSelect.innerHTML = regions.map(region => `<option value="${region}">${region}</option>`).join('');
+        }
+
+        function createProfile() {
+            const name = document.getElementById('name').value;
+            const lastName = document.getElementById('last-name').value;
+            const state = document.getElementById('state').value;
+            const region = document.getElementById('region').value;
+            const container = document.querySelector('.container');
+
+            const profile = document.createElement('div');
+            profile.classList.add('profile');
+            profile.setAttribute('data-state', state);
+            profile.setAttribute('data-region', region);
+            profile.innerHTML = `
+                <h3>${name} ${lastName}</h3>
+                <p class="country">${state}</p>
+                <p class="city">${region}</p>
+                <p><a href="profile1.html">Profile</a></p>
+            `;
+
+            container.appendChild(profile);
+            document.querySelector('.create-profile').style.display = 'none';
+        }
+    </script>
 </head>
 <body>
     <header>
@@ -114,111 +185,80 @@
         </nav>
     </header>
     <div class="container">
-        <div class="create-profile-form" id="createProfileForm">
-            <h2>Create New Profile</h2>
-            <label for="name">Name:</label>
-            <input type="text" id="name" placeholder="Enter name">
-            <label for="city">City:</label>
-            <input type="text" id="city" placeholder="Enter city">
-            <label for="state">State:</label>
-            <input type="text" id="state" placeholder="Enter state">
-            <label for="specialization">Specialization of Work:</label>
-            <input type="text" id="specialization" placeholder="Enter specialization">
-            <label for="company">Company:</label>
-            <input type="text" id="company" placeholder="Enter company">
-            <button onclick="createProfile()">Create Profile</button>
-        </div>
-        <div class="filter-form">
-            <h2>Filter Profiles</h2>
-            <label for="filterState">State:</label>
-            <input type="text" id="filterState" placeholder="Enter state">
-            <label for="filterCity">City:</label>
-            <input type="text" id="filterCity" placeholder="Enter city">
+        <div class="filter">
+            <select id="filter-state" onchange="updateFilterRegionOptions()">
+                <option value="">Select State</option>
+                <option value="SK">SK</option>
+                <option value="CZ">CZ</option>
+            </select>
+            <select id="filter-region">
+                <option value="">Select Region</option>
+            </select>
             <button onclick="filterProfiles()">Filter</button>
+            <button onclick="showCreateProfileForm()">CREATE NEW PROFILE</button>
         </div>
-        <!-- Profiles will be dynamically added here -->
-        <div id="profiles">
-            <!-- Example profiles, these will be dynamically added -->
-            <div class="profile">
-                <div class="details">
-                    <h3>John Doe</h3>
-                    <div class="feedback">4/5 ★★★★☆</div>
-                    <a href="profile1.html">Profile</a>
-                </div>
-                <p class="country">SK</p>
-            </div>
-            <div class="profile">
-                <div class="details">
-                    <h3>Jane Smith</h3>
-                    <div class="feedback">5/5 ★★★★★</div>
-                    <a href="profile2.html">Profile</a>
-                </div>
-                <p class="country">US</p>
-            </div>
-            <!-- More profiles here -->
+        <div class="create-profile">
+            <h2>Create New Profile</h2>
+            <input type="text" id="name" placeholder="Name">
+            <input type="text" id="last-name" placeholder="Last Name">
+            <select id="state" onchange="updateRegionOptions()">
+                <option value="">Select State</option>
+                <option value="SK">SK</option>
+                <option value="CZ">CZ</option>
+            </select>
+            <select id="region">
+                <option value="">Select Region</option>
+            </select>
+            <button onclick="createProfile()">Save Profile</button>
         </div>
-        <button onclick="toggleCreateProfileForm()">Create New Profile</button>
+        <!-- Sample Profiles Start -->
+        <div class="profile" data-state="SK" data-region="Bratislavský kraj">
+            <h3>John Doe</h3>
+            <p class="country">SK</p>
+            <p class="city">Bratislavský kraj</p>
+            <p><a href="profile1.html">Profile</a></p>
+            <p class="feedback">4/5 ★★★★☆</p>
+        </div>
+        <div class="profile" data-state="US" data-region="California">
+            <h3>Jane Smith</h3>
+            <p class="country">US</p>
+            <p class="city">California</p>
+            <p><a href="profile2.html">Profile</a></p>
+            <p class="feedback">5/5 ★★★★★</p>
+        </div>
+        <div class="profile" data-state="CA" data-region="Ontario">
+            <h3>Michael Brown</h3>
+            <p class="country">CA</p>
+            <p class="city">Ontario</p>
+            <p><a href="profile3.html">Profile</a></p>
+            <p class="feedback">4/5 ★★★★☆</p>
+        </div>
+        <!-- Sample Profiles End -->
     </div>
     <footer>
         <p>&copy; 2024 Drone and Geodetic Surveying Services</p>
     </footer>
     <script>
-        function createProfile() {
-            const name = document.getElementById('name').value;
-            const city = document.getElementById('city').value;
-            const state = document.getElementById('state').value;
-            const specialization = document.getElementById('specialization').value;
-            const company = document.getElementById('company').value;
+        function updateFilterRegionOptions() {
+            const state = document.getElementById('filter-state').value;
+            const regionSelect = document.getElementById('filter-region');
+            let regions = [];
 
-            if (!name || !city || !state || !specialization || !company) {
-                alert('Please fill in all fields.');
-                return;
+            if (state === 'SK') {
+                regions = [
+                    'Bratislavský kraj', 'Trnavský kraj', 'Trenčiansky kraj', 'Nitriansky kraj',
+                    'Žilinský kraj', 'Banskobystrický kraj', 'Prešovský kraj', 'Košický kraj'
+                ];
+            } else if (state === 'CZ') {
+                regions = [
+                    'Hlavní město Praha', 'Středočeský kraj', 'Jihočeský kraj', 'Plzeňský kraj',
+                    'Karlovarský kraj', 'Ústecký kraj', 'Liberecký kraj', 'Královéhradecký kraj',
+                    'Pardubický kraj', 'Kraj Vysočina', 'Jihomoravský kraj', 'Olomoucký kraj',
+                    'Moravskoslezský kraj', 'Zlínský kraj'
+                ];
             }
 
-            // Create a new profile element
-            const profile = document.createElement('div');
-            profile.className = 'profile';
-            profile.innerHTML = `
-                <div class="details">
-                    <h3>${name}</h3>
-                    <div class="feedback">No reviews yet</div>
-                    <a href="#">Profile</a>
-                </div>
-                <p class="country">${state}</p>
-            `;
-            document.getElementById('profiles').appendChild(profile);
-
-            // Clear the form
-            document.getElementById('name').value = '';
-            document.getElementById('city').value = '';
-            document.getElementById('state').value = '';
-            document.getElementById('specialization').value = '';
-            document.getElementById('company').value = '';
-
-            // Hide the create profile form
-            document.getElementById('createProfileForm').style.display = 'none';
-        }
-
-        function toggleCreateProfileForm() {
-            const form = document.getElementById('createProfileForm');
-            form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
-        }
-
-        function filterProfiles() {
-            const state = document.getElementById('filterState').value.toLowerCase();
-            const city = document.getElementById('filterCity').value.toLowerCase();
-            const profiles = document.querySelectorAll('.profile');
-
-            profiles.forEach(profile => {
-                const profileState = profile.querySelector('.country').textContent.toLowerCase();
-                const profileCity = profile.querySelector('.details h3').textContent.toLowerCase(); // Example, update based on real city data
-
-                if (profileState.includes(state) && profileCity.includes(city)) {
-                    profile.style.display = 'block';
-                } else {
-                    profile.style.display = 'none';
-                }
-            });
+            regionSelect.innerHTML = regions.map(region => `<option value="${region}">${region}</option>`).join('');
         }
     </script>
 </body>
