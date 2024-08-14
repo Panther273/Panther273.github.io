@@ -35,9 +35,40 @@
             overflow: hidden;
             padding: 2em 0;
         }
-        .filter-container {
-            display: none;
+        .filter-button, .create-profile-button {
+            padding: 0.5em 1em;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
             margin-bottom: 1em;
+        }
+        .filter-button:hover, .create-profile-button:hover {
+            background-color: #555;
+        }
+        .filter {
+            display: none;
+            background-color: white;
+            padding: 1em;
+            margin-bottom: 1em;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .filter select {
+            padding: 0.5em;
+            margin-right: 1em;
+        }
+        .filter button {
+            padding: 0.5em 1em;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .filter button:hover {
+            background-color: #555;
         }
         .profile {
             background-color: white;
@@ -45,76 +76,153 @@
             padding: 1em;
             border: 1px solid #ccc;
             border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
         .profile h3 {
             margin: 0;
-            padding-bottom: 0.5em;
+            padding-right: 1em;
         }
-        .profile .info-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5em;
+        .profile p {
+            margin: 0 0.5em;
         }
-        .footer {
+        .country, .city, .feedback {
+            font-size: 1em;
+            color: #666;
+        }
+        footer {
             background-color: #333;
             color: white;
             text-align: center;
             padding: 1em 0;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
+            margin-top: 1em;
         }
-        .popup {
+        .create-profile {
             display: none;
-            position: fixed;
-            top: 10%;
-            left: 50%;
-            transform: translate(-50%, 0);
-            width: 80%;
             background-color: white;
             padding: 1em;
-            border: 1px solid #ccc;
+            margin-bottom: 1em;
             border-radius: 5px;
-            z-index: 1000;
+            border: 1px solid #ccc;
         }
-        .popup h2 {
-            text-align: center;
-        }
-        .popup label {
-            display: block;
-            margin: 0.5em 0 0.2em;
-        }
-        .popup input, .popup select {
+        .create-profile input, .create-profile select {
             width: 100%;
             padding: 0.5em;
             margin-bottom: 1em;
-            border: 1px solid #ccc;
-            border-radius: 5px;
         }
-        .popup button {
-            display: block;
-            width: 100%;
-            padding: 0.5em;
+        .create-profile button {
+            padding: 0.5em 1em;
             background-color: #333;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
-        .popup button:hover {
+        .create-profile button:hover {
             background-color: #555;
         }
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
     </style>
+    <script>
+        function toggleFilter() {
+            const filter = document.querySelector('.filter');
+            filter.style.display = filter.style.display === 'none' || filter.style.display === '' ? 'block' : 'none';
+        }
+
+        function filterProfiles() {
+            const state = document.getElementById('filter-state').value;
+            const region = document.getElementById('filter-region').value;
+            const profiles = document.querySelectorAll('.profile');
+            let found = false;
+
+            profiles.forEach(profile => {
+                const profileState = profile.getAttribute('data-state');
+                const profileRegion = profile.getAttribute('data-region');
+                if ((state === '' || profileState === state) && (region === '' || profileRegion === region)) {
+                    profile.style.display = 'block';
+                    found = true;
+                } else {
+                    profile.style.display = 'none';
+                }
+            });
+
+            if (!found) {
+                alert('NOT PILOT FOUND!');
+            }
+        }
+
+        function showCreateProfileForm() {
+            const form = document.querySelector('.create-profile');
+            form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
+        }
+
+        function updateRegionOptions() {
+            const state = document.getElementById('state').value;
+            const regionSelect = document.getElementById('region');
+            let regions = [];
+
+            if (state === 'SK') {
+                regions = [
+                    'Bratislavský kraj', 'Trnavský kraj', 'Trenčiansky kraj', 'Nitriansky kraj',
+                    'Žilinský kraj', 'Banskobystrický kraj', 'Prešovský kraj', 'Košický kraj'
+                ];
+            } else if (state === 'CZ') {
+                regions = [
+                    'Hlavní město Praha', 'Středočeský kraj', 'Jihočeský kraj', 'Plzeňský kraj',
+                    'Karlovarský kraj', 'Ústecký kraj', 'Liberecký kraj', 'Královéhradecký kraj',
+                    'Pardubický kraj', 'Kraj Vysočina', 'Jihomoravský kraj', 'Olomoucký kraj',
+                    'Moravskoslezský kraj', 'Zlínský kraj'
+                ];
+            }
+
+            regionSelect.innerHTML = regions.map(region => `<option value="${region}">${region}</option>`).join('');
+        }
+
+        function updateFilterRegionOptions() {
+            const state = document.getElementById('filter-state').value;
+            const regionSelect = document.getElementById('filter-region');
+            let regions = [];
+
+            if (state === 'SK') {
+                regions = [
+                    'Bratislavský kraj', 'Trnavský kraj', 'Trenčiansky kraj', 'Nitriansky kraj',
+                    'Žilinský kraj', 'Banskobystrický kraj', 'Prešovský kraj', 'Košický kraj'
+                ];
+            } else if (state === 'CZ') {
+                regions = [
+                    'Hlavní město Praha', 'Středočeský kraj', 'Jihočeský kraj', 'Plzeňský kraj',
+                    'Karlovarský kraj', 'Ústecký kraj', 'Liberecký kraj', 'Královéhradecký kraj',
+                    'Pardubický kraj', 'Kraj Vysočina', 'Jihomoravský kraj', 'Olomoucký kraj',
+                    'Moravskoslezský kraj', 'Zlínský kraj'
+                ];
+            }
+
+            regionSelect.innerHTML = regions.map(region => `<option value="${region}">${region}</option>`).join('');
+        }
+
+        function createProfile() {
+            const name = document.getElementById('name').value;
+            const lastName = document.getElementById('last-name').value;
+            const state = document.getElementById('state').value;
+            const region = document.getElementById('region').value;
+            const code = document.getElementById('code').value;
+            const container = document.querySelector('.container');
+
+            const profile = document.createElement('div');
+            profile.classList.add('profile');
+            profile.setAttribute('data-state', state);
+            profile.setAttribute('data-region', region);
+            profile.innerHTML = `
+                <h3>${name} ${lastName}</h3>
+                <p class="country">${state}</p>
+                <p class="city">${region}</p>
+                <p><a href="profile1.html">Profile</a></p>
+            `;
+
+            container.appendChild(profile);
+            document.querySelector('.create-profile').style.display = 'none';
+        }
+    </script>
 </head>
 <body>
     <header>
@@ -127,134 +235,43 @@
         </nav>
     </header>
     <div class="container">
-        <div class="filter-container" id="filterContainer">
-            <h2>Filter Profiles</h2>
-            <label for="stateFilter">State:</label>
-            <select id="stateFilter" onchange="updateKrajOptions('filter')">
+        <button class="filter-button" onclick="toggleFilter()">Filter</button>
+        <div class="filter">
+            <select id="filter-state" onchange="updateFilterRegionOptions()">
                 <option value="">Select State</option>
-                <option value="SK">Slovakia</option>
-                <option value="CZ">Czech Republic</option>
+                <option value="SK">SK</option>
+                <option value="CZ">CZ</option>
             </select>
-            <label for="krajFilter">Kraj:</label>
-            <select id="krajFilter">
-                <option value="">Select Kraj</option>
+            <select id="filter-region">
+                <option value="">Select Region</option>
             </select>
             <button onclick="filterProfiles()">Search</button>
         </div>
-        <button onclick="toggleFilter()">Filter</button>
-        <div class="profile">
-            <div class="info-row">
-                <h3>John Doe</h3>
-                <p>Bratislavský kraj</p>
-                <a href="profile1.html">Profile</a>
-                <p class="feedback">4/5 ★★★★☆</p>
-            </div>
+        <button class="create-profile-button" onclick="showCreateProfileForm()">CREATE NEW PROFILE</button>
+        <div class="create-profile">
+            <h3>Create New Profile</h3>
+            <input type="text" id="name" placeholder="Name">
+            <input type="text" id="last-name" placeholder="Last Name">
+            <select id="state" onchange="updateRegionOptions()">
+                <option value="">Select State</option>
+                <option value="SK">SK</option>
+                <option value="CZ">CZ</option>
+            </select>
+            <select id="region">
+                <option value="">Select Region</option>
+            </select>
+            <input type="text" id="code" placeholder="Code">
+            <button onclick="createProfile()">Submit</button>
         </div>
-        <button onclick="togglePopup()">Create New Profile</button>
+        <div class="profile" data-state="SK" data-region="Bratislavský kraj">
+            <h3>John Doe</h3>
+            <p class="country">SK</p>
+            <p class="city">Bratislavský kraj</p>
+            <p><a href="profile1.html">Profile</a></p>
+        </div>
     </div>
-    <div class="footer">
+    <footer>
         <p>&copy; 2024 Drone and Geodetic Surveying Services</p>
-    </div>
-    <div class="overlay" id="overlay" onclick="togglePopup()"></div>
-    <div class="popup" id="createProfilePopup">
-        <h2>Create New Profile</h2>
-        <label for="name">Name and Last Name:</label>
-        <input type="text" id="name" required>
-        <label for="state">State:</label>
-        <select id="state" onchange="updateKrajOptions('create')" required>
-            <option value="">Select State</option>
-            <option value="SK">Slovakia</option>
-            <option value="CZ">Czech Republic</option>
-        </select>
-        <label for="kraj">Kraj:</label>
-        <select id="kraj" required>
-            <option value="">Select Kraj</option>
-        </select>
-        <label for="code">Code:</label>
-        <input type="text" id="code" required>
-        <button onclick="createProfile()">Save Profile</button>
-    </div>
-    <script>
-        function toggleFilter() {
-            const filterContainer = document.getElementById('filterContainer');
-            filterContainer.style.display = filterContainer.style.display === 'none' ? 'block' : 'none';
-        }
-
-        function togglePopup() {
-            const popup = document.getElementById('createProfilePopup');
-            const overlay = document.getElementById('overlay');
-            const isVisible = popup.style.display === 'block';
-            popup.style.display = isVisible ? 'none' : 'block';
-            overlay.style.display = isVisible ? 'none' : 'block';
-        }
-
-        function updateKrajOptions(context) {
-            const state = context === 'filter' ? document.getElementById('stateFilter').value : document.getElementById('state').value;
-            const krajSelect = context === 'filter' ? document.getElementById('krajFilter') : document.getElementById('kraj');
-            krajSelect.innerHTML = '<option value="">Select Kraj</option>';
-
-            if (state === 'SK') {
-                const kraje = [
-                    'Bratislavský kraj',
-                    'Trnavský kraj',
-                    'Trenčiansky kraj',
-                    'Nitriansky kraj',
-                    'Žilinský kraj',
-                    'Banskobystrický kraj',
-                    'Prešovský kraj',
-                    'Košický kraj'
-                ];
-                kraje.forEach(kraj => {
-                    const option = document.createElement('option');
-                    option.value = kraj;
-                    option.textContent = kraj;
-                    krajSelect.appendChild(option);
-                });
-            } else if (state === 'CZ') {
-                const kraje = [
-                    'Hlavní město Praha',
-                    'Středočeský kraj',
-                    'Jihočeský kraj',
-                    'Plzeňský kraj',
-                    'Karlovarský kraj',
-                    'Ústecký kraj',
-                    'Liberecký kraj',
-                    'Královéhradecký kraj',
-                    'Pardubický kraj',
-                    'Kraj Vysočina',
-                    'Jihomoravský kraj',
-                    'Olomoucký kraj',
-                    'Moravskoslezský kraj',
-                    'Zlínský kraj'
-                ];
-                kraje.forEach(kraj => {
-                    const option = document.createElement('option');
-                    option.value = kraj;
-                    option.textContent = kraj;
-                    krajSelect.appendChild(option);
-                });
-            }
-        }
-
-        function filterProfiles() {
-            const state = document.getElementById('stateFilter').value;
-            const kraj = document.getElementById('krajFilter').value;
-            // Implement filter logic here, e.g., send a request to the backend to fetch filtered profiles
-            console.log('Filtering profiles by:', state, kraj);
-        }
-
-        function createProfile() {
-            const name = document.getElementById('name').value;
-            const state = document.getElementById('state').value;
-            const kraj = document.getElementById('kraj').value;
-            const code = document.getElementById('code').value;
-
-            // Implement profile creation logic here, e.g., send a request to the backend to save the profile
-            console.log('Creating profile:', { name, state, kraj, code });
-
-            // After creating the profile, close the popup
-            togglePopup();
-        }
-    </script>
+    </footer>
 </body>
 </html>
