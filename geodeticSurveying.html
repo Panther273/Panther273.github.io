@@ -35,35 +35,198 @@
             overflow: hidden;
             padding: 2em 0;
         }
+        .filter-button, .create-profile-button {
+            padding: 0.5em 1em;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 1em;
+        }
+        .filter-button:hover, .create-profile-button:hover {
+            background-color: #555;
+        }
+        .filter {
+            display: none;
+            background-color: white;
+            padding: 1em;
+            margin-bottom: 1em;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .filter select {
+            padding: 0.5em;
+            margin-right: 1em;
+        }
+        .filter button {
+            padding: 0.5em 1em;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .filter button:hover {
+            background-color: #555;
+        }
         .profile {
             background-color: white;
             margin: 1em 0;
             padding: 1em;
             border: 1px solid #ccc;
             border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-        .portfolio img {
-            width: 100px;
-            height: auto;
-            margin-right: 10px;
+        .profile h3 {
+            margin: 0;
+            padding-right: 1em;
         }
-        .feedback p {
-            margin: 0.5em 0;
+        .profile p {
+            margin: 0 0.5em;
+        }
+        .country, .city, .feedback {
+            font-size: 1em;
+            color: #666;
         }
         footer {
             background-color: #333;
             color: white;
             text-align: center;
             padding: 1em 0;
-            position: fixed;
+            margin-top: 1em;
+        }
+        .create-profile {
+            display: none;
+            background-color: white;
+            padding: 1em;
+            margin-bottom: 1em;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .create-profile input, .create-profile select {
             width: 100%;
-            bottom: 0;
+            padding: 0.5em;
+            margin-bottom: 1em;
+        }
+        .create-profile button {
+            padding: 0.5em 1em;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .create-profile button:hover {
+            background-color: #555;
         }
     </style>
+    <script>
+        function toggleFilter() {
+            const filter = document.querySelector('.filter');
+            filter.style.display = filter.style.display === 'none' || filter.style.display === '' ? 'block' : 'none';
+        }
+
+        function filterProfiles() {
+            const state = document.getElementById('filter-state').value;
+            const region = document.getElementById('filter-region').value;
+            const profiles = document.querySelectorAll('.profile');
+            let found = false;
+
+            profiles.forEach(profile => {
+                const profileState = profile.getAttribute('data-state');
+                const profileRegion = profile.getAttribute('data-region');
+                if ((state === '' || profileState === state) && (region === '' || profileRegion === region)) {
+                    profile.style.display = 'block';
+                    found = true;
+                } else {
+                    profile.style.display = 'none';
+                }
+            });
+
+            if (!found) {
+                alert('NOT PILOT FOUND!');
+            }
+        }
+
+        function showCreateProfileForm() {
+            const form = document.querySelector('.create-profile');
+            form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
+        }
+
+        function updateRegionOptions() {
+            const state = document.getElementById('state').value;
+            const regionSelect = document.getElementById('region');
+            let regions = [];
+
+            if (state === 'SK') {
+                regions = [
+                    'Bratislavský kraj', 'Trnavský kraj', 'Trenčiansky kraj', 'Nitriansky kraj',
+                    'Žilinský kraj', 'Banskobystrický kraj', 'Prešovský kraj', 'Košický kraj'
+                ];
+            } else if (state === 'CZ') {
+                regions = [
+                    'Hlavní město Praha', 'Středočeský kraj', 'Jihočeský kraj', 'Plzeňský kraj',
+                    'Karlovarský kraj', 'Ústecký kraj', 'Liberecký kraj', 'Královéhradecký kraj',
+                    'Pardubický kraj', 'Kraj Vysočina', 'Jihomoravský kraj', 'Olomoucký kraj',
+                    'Moravskoslezský kraj', 'Zlínský kraj'
+                ];
+            }
+
+            regionSelect.innerHTML = regions.map(region => `<option value="${region}">${region}</option>`).join('');
+        }
+
+        function updateFilterRegionOptions() {
+            const state = document.getElementById('filter-state').value;
+            const regionSelect = document.getElementById('filter-region');
+            let regions = [];
+
+            if (state === 'SK') {
+                regions = [
+                    'Bratislavský kraj', 'Trnavský kraj', 'Trenčiansky kraj', 'Nitriansky kraj',
+                    'Žilinský kraj', 'Banskobystrický kraj', 'Prešovský kraj', 'Košický kraj'
+                ];
+            } else if (state === 'CZ') {
+                regions = [
+                    'Hlavní město Praha', 'Středočeský kraj', 'Jihočeský kraj', 'Plzeňský kraj',
+                    'Karlovarský kraj', 'Ústecký kraj', 'Liberecký kraj', 'Královéhradecký kraj',
+                    'Pardubický kraj', 'Kraj Vysočina', 'Jihomoravský kraj', 'Olomoucký kraj',
+                    'Moravskoslezský kraj', 'Zlínský kraj'
+                ];
+            }
+
+            regionSelect.innerHTML = regions.map(region => `<option value="${region}">${region}</option>`).join('');
+        }
+
+        function createProfile() {
+            const name = document.getElementById('name').value;
+            const lastName = document.getElementById('last-name').value;
+            const state = document.getElementById('state').value;
+            const region = document.getElementById('region').value;
+            const code = document.getElementById('code').value;
+            const container = document.querySelector('.container');
+
+            const profile = document.createElement('div');
+            profile.classList.add('profile');
+            profile.setAttribute('data-state', state);
+            profile.setAttribute('data-region', region);
+            profile.innerHTML = `
+                <h3>${name} ${lastName}</h3>
+                <p class="country">${state}</p>
+                <p class="city">${region}</p>
+                <p><a href="profile1.html">Profile</a></p>
+            `;
+
+            container.appendChild(profile);
+            document.querySelector('.create-profile').style.display = 'none';
+        }
+    </script>
 </head>
 <body>
     <header>
-        <h1>Geodetic Surveying Profiles</h1>
+        <h1>Geodetic Surveying</h1>
         <nav>
             <a href="index.html">Home</a>
             <a href="droneService.html">Drone Service</a>
@@ -72,11 +235,43 @@
         </nav>
     </header>
     <div class="container">
-        <!-- Sample Profile Start -->
-        <div class="profile">
-            <h3>Jane Smith</h3>
-            <p>Licensed geodetician with over 10 years of experience in land surveying and mapping.</p>
-            <h4>Portfolio</h4>
-            <div class="portfolio">
-                <img src="survey1.jpg" alt="Survey Image 1">
-                <img src="survey2.jpg" alt="Survey Image 2">
+        <button class="filter-button" onclick="toggleFilter()">Filter</button>
+        <div class="filter">
+            <select id="filter-state" onchange="updateFilterRegionOptions()">
+                <option value="">Select State</option>
+                <option value="SK">SK</option>
+                <option value="CZ">CZ</option>
+            </select>
+            <select id="filter-region">
+                <option value="">Select Region</option>
+            </select>
+            <button onclick="filterProfiles()">Search</button>
+        </div>
+        <button class="create-profile-button" onclick="showCreateProfileForm()">CREATE NEW PROFILE</button>
+        <div class="create-profile">
+            <h3>Create New Profile</h3>
+            <input type="text" id="name" placeholder="Name">
+            <input type="text" id="last-name" placeholder="Last Name">
+            <select id="state" onchange="updateRegionOptions()">
+                <option value="">Select State</option>
+                <option value="SK">SK</option>
+                <option value="CZ">CZ</option>
+            </select>
+            <select id="region">
+                <option value="">Select Region</option>
+            </select>
+            <input type="text" id="code" placeholder="Code">
+            <button onclick="createProfile()">Submit</button>
+        </div>
+        <div class="profile" data-state="SK" data-region="Košický kraj">
+            <h3>Zuzanka Lenhy</h3>
+            <p class="country">SK</p>
+            <p class="city">Košický kraj</p>
+            <p><a href="profile1.html">Profile</a></p>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Drone and Geodetic Surveying Services</p>
+    </footer>
+</body>
+</html>
